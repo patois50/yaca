@@ -1,7 +1,7 @@
 package com.pmcgeever.actors
 
-import akka.actor.{ActorRefFactory, Actor}
-import com.pmcgeever.routes.AvailabilityRoute
+import akka.actor.{ActorRef, ActorRefFactory, Actor}
+import com.pmcgeever.routes.{SimpleRoute, AvailabilityRoute}
 import spray.routing.HttpService
 
 // we don't implement our route structure directly in the service actor because
@@ -15,6 +15,10 @@ class RouteActor extends Actor with HttpService {
   // this actor only runs our route, but you could add
   // other things here, like request stream processing
   // or timeout handling
-  def receive = runRoute(new AvailabilityRoute(availabilityActor).route)
+  def receive = runRoute(
+    new AvailabilityRoute(availabilityActor).route
+      ~ SimpleRoute {override def actor = availabilityActor}.route)
+
+
 
 }

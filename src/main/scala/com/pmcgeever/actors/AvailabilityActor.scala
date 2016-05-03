@@ -19,6 +19,8 @@ object Offline extends Status {
   toString => "available"
 }
 
+case class Availability(userID: String, status: Status)
+
 object StatusJsonProtocol extends DefaultJsonProtocol {
   implicit object ColorJsonFormat extends RootJsonFormat[Status] {
 
@@ -41,7 +43,7 @@ case class UpdateAvailability(username: String, obj: JsObject)
 
 object AvailabilityActor {
   val props = Props.apply(new AvailabilityActor)
-  var data = scala.collection.mutable.Map[String, Status]()
+  var data = scala.collection.mutable.Map[String, Availability]()
 }
 
 class AvailabilityActor extends Actor {
