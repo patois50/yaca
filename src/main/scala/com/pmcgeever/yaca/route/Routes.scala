@@ -13,11 +13,6 @@ class RoutesActor extends Actor with Routes {
 trait Routes extends AvailabilityRoute {
   val routes = {
     pathPrefix("api") {
-      pathEnd {
-        get {
-          complete("Api requested")
-        }
-      } ~
         availability
     }
   }

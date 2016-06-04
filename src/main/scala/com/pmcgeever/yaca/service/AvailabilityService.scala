@@ -1,22 +1,16 @@
 package com.pmcgeever.yaca.route.services
 
-import akka.actor.Actor
-import akka.actor.Status.Failure
+import com.pmcgeever.yaca.domain.{Availability, Available, Unavailable}
+import com.pmcgeever.yaca.service.Repository
 
 object AvailabilityService {
-  case class AvailabilityFor(userId: Long)
-  val data = Map(1L -> "available", 2L -> "unavailable")
+  val availabilityData = Map(
+    1L -> Availability(1L, Available, "Im happy to chat"),
+    2L -> Availability(2L, Unavailable, "Im happy to chat"))
 }
 
-class AvailabilityService extends Actor {
-  import com.pmcgeever.yaca.route.RequestResponse
+class AvailabilityService extends Repository[Availability] {
   import com.pmcgeever.yaca.route.services.AvailabilityService._
 
-  override def receive = {
-    case AvailabilityFor(uid) =>
-      sender !
-        data.get(uid)
-          .map(a => RequestResponse(raw"""{availability: "$a"}"""))
-          .getOrElse(Failure(new NoSuchElementException(s"User id $uid does not exist")))
-  }
+  override val data = availabilityData
 }

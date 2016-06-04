@@ -1,45 +1,32 @@
 package com.pmcgeever.yaca.route
 
-import akka.actor.Status.Failure
 import akka.actor.{Actor, ActorRef, Props}
-import spray.http.{StatusCodes, StatusCode}
-import spray.routing.{HttpService, RequestContext}
-
-case class RequestResponse(response: String)
+import spray.routing.HttpService
 
 trait RequestActor extends Actor {
 
-  def requestContext: RequestContext
+  def responseHandler: ResponseHandler
   def target: ActorRef
-  def message: Object
+  def message: AnyRef
 
   target ! message
 
   def receive = {
-    case RequestResponse(r) => complete(r)
-    case Failure(e) => completeWithError(e)
-  }
-
-  def complete(response: String) = {
-    requestContext.complete(response)
-    context.stop(self)
-  }
-
-  // TODO this needs to be updated so that it can respond with different error codes
-  def completeWithError(e: Throwable) = {
-    requestContext.complete(StatusCodes.NotFound, e.getMessage)
-    context.stop(self)
+    case ev: AnyRef => {
+      responseHandler.handleResponse(ev)
+      context.stop(self)
+    }
   }
 }
 
 object RequestActor {
-  case class Worker(requestContext: RequestContext, target: ActorRef, message: Object) extends RequestActor
+  case class Worker(responseHandler: ResponseHandler, target: ActorRef, message: AnyRef) extends RequestActor
 }
 
 trait RequestActorFactory {
   this: HttpService =>
 
   // TODO setup supervision strategy for the worker actors
-  def handleRequest(requestContext: RequestContext, target: ActorRef, message: Object): Unit =
-    actorRefFactory.actorOf(Props(RequestActor.Worker(requestContext, target, message)))
+  def handleRequest(responseHandler: ResponseHandler, target: ActorRef, message: AnyRef): Unit =
+    actorRefFactory.actorOf(Props(RequestActor.Worker(responseHandler, target, message)))
 }
