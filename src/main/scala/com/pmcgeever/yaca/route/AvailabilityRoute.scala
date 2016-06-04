@@ -1,7 +1,7 @@
-package com.pmcgeever.yaca.routes
+package com.pmcgeever.yaca.route
 
 import akka.actor._
-import com.pmcgeever.yaca.routes.services.AvailabilityService.AvailabilityFor
+import com.pmcgeever.yaca.route.services.AvailabilityService.AvailabilityFor
 import spray.routing.{HttpService, Route}
 
 trait AvailabilityRoute extends HttpService with RequestActorFactory {
@@ -17,6 +17,6 @@ trait AvailabilityRoute extends HttpService with RequestActorFactory {
 
   def retrieveAvailabilityFor(userId: Long): Route = {
     requestContext =>
-      requestActor(requestContext, availabilityService, AvailabilityFor(userId))
+      handleRequest(requestContext, availabilityService, AvailabilityFor(userId))
   }
 }

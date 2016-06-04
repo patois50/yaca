@@ -1,4 +1,4 @@
-package com.pmcgeever.yaca.routes.services
+package com.pmcgeever.yaca.route.services
 
 import akka.actor.Actor
 import akka.actor.Status.Failure
@@ -9,8 +9,8 @@ object AvailabilityService {
 }
 
 class AvailabilityService extends Actor {
-  import com.pmcgeever.yaca.routes.RequestResponse
-  import com.pmcgeever.yaca.routes.services.AvailabilityService._
+  import com.pmcgeever.yaca.route.RequestResponse
+  import com.pmcgeever.yaca.route.services.AvailabilityService._
 
   override def receive = {
     case AvailabilityFor(uid) =>

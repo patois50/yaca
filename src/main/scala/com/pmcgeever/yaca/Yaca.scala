@@ -4,7 +4,7 @@ import akka.actor.{ActorSystem, Props}
 import akka.io.IO
 import akka.pattern.ask
 import akka.util.Timeout
-import com.pmcgeever.yaca.routes.RoutesActor
+import com.pmcgeever.yaca.route.RoutesActor
 import spray.can.Http
 
 import scala.concurrent.duration._

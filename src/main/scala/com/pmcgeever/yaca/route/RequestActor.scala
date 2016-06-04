@@ -1,4 +1,4 @@
-package com.pmcgeever.yaca.routes
+package com.pmcgeever.yaca.route
 
 import akka.actor.Status.Failure
 import akka.actor.{Actor, ActorRef, Props}
@@ -33,14 +33,13 @@ trait RequestActor extends Actor {
 }
 
 object RequestActor {
-  case class Concrete(requestContext: RequestContext, target: ActorRef, message: Object) extends RequestActor
+  case class Worker(requestContext: RequestContext, target: ActorRef, message: Object) extends RequestActor
 }
 
 trait RequestActorFactory {
   this: HttpService =>
 
-  import com.pmcgeever.yaca.routes.RequestActor.Concrete
-
-  def requestActor(requestContext: RequestContext, target: ActorRef, message: Object): ActorRef =
-    actorRefFactory.actorOf(Props(Concrete(requestContext, target, message)))
+  // TODO setup supervision strategy for the worker actors
+  def handleRequest(requestContext: RequestContext, target: ActorRef, message: Object): Unit =
+    actorRefFactory.actorOf(Props(RequestActor.Worker(requestContext, target, message)))
 }

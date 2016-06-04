@@ -1,7 +1,7 @@
-package com.pmcgeever.yaca.routes
+package com.pmcgeever.yaca.route
 
 import akka.actor.{Actor, ActorRefFactory, Props}
-import com.pmcgeever.yaca.routes.services.AvailabilityService
+import com.pmcgeever.yaca.route.services.AvailabilityService
 
 class RoutesActor extends Actor with Routes {
   override val actorRefFactory: ActorRefFactory = context
