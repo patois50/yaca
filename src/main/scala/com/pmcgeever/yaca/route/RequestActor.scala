@@ -1,7 +1,6 @@
 package com.pmcgeever.yaca.route
 
-import akka.actor.{Actor, ActorRef, Props}
-import spray.routing.HttpService
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 
 trait RequestActor extends Actor {
 
@@ -24,7 +23,8 @@ object RequestActor {
 }
 
 trait RequestActorFactory {
-  this: HttpService =>
+
+  val actorRefFactory: ActorSystem
 
   // TODO setup supervision strategy for the worker actors
   def handleRequest(responseHandler: ResponseHandler, target: ActorRef, message: AnyRef): Unit =
