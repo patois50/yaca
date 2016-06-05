@@ -27,6 +27,6 @@ trait RequestActorFactory {
   val actorRefFactory: ActorSystem
 
   // TODO setup supervision strategy for the worker actors
-  def handleRequest(responseHandler: ResponseHandler, target: ActorRef, message: AnyRef): Unit =
+  def handleRequest(responseHandler: ResponseHandler, target: ActorRef, message: AnyRef): ActorRef =
     actorRefFactory.actorOf(Props(RequestActor.Worker(responseHandler, target, message)))
 }

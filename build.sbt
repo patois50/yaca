@@ -15,9 +15,10 @@ libraryDependencies ++= {
     "io.spray"            %%  "spray-httpx"   % sprayV,
     "io.spray"            %%  "spray-json"    % "1.3.2",
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
-    "io.spray"            %%  "spray-testkit" % sprayV  % "test",
-    "com.typesafe.akka"   %%  "akka-testkit"  % akkaV   % "test",
-    "org.scalatest"       %%  "scalatest"     % "2.2.6"  % "test"
+    "io.spray"            %%  "spray-testkit" % sprayV    % "test",
+    "com.typesafe.akka"   %%  "akka-testkit"  % akkaV     % "test",
+    "org.scalatest"       %%  "scalatest"     % "2.2.6"   % "test",
+    "org.mockito"         %   "mockito-core"  % "1.10.19" % "test"
   )
 }
 
