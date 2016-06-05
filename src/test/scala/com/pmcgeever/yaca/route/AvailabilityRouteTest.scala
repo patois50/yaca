@@ -49,6 +49,18 @@ class AvailabilityRouteTest extends FlatSpec with ScalatestRouteTest with Matche
     }
   }
 
+  it should "not accept requests that begin with /availability but have no user id" in new Context {
+    Get("/availability") ~> availabilityRoute ~> check {
+      handled should be(false)
+    }
+  }
+
+  it should "not accept requests that do not begin with /availability/{id}" in new Context {
+    Get("/some/other/path") ~> availabilityRoute ~> check {
+      handled should be(false)
+    }
+  }
+
   class Context extends TestKit(ActorSystem("Test")) with AvailabilityRoute {
     override val actorRefFactory: ActorSystem = system
     val availabilityProbe = TestProbe()
